@@ -1,0 +1,346 @@
+/* ─── Design tokens ─────────────────────────────── */
+:root {
+  --bg:         #070707;
+  --surface:    #0f0f0f;
+  --border:     #1e1e1e;
+  --text:       #f0f0f0;
+  --text-2:     #888888;
+  --text-3:     #444444;
+  --accent:     #c8ff00;
+  --accent-dim: #8aaf00;
+  --radius:     6px;
+}
+
+/* ─── Reset ─────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Outfit', system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+/* ─── Utilities ──────────────────────────────────── */
+.accent { color: var(--accent); }
+
+/* ─── Button ─────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 14px 28px;
+  border-radius: var(--radius);
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+.btn-primary { background: var(--accent); color: var(--bg); }
+.btn-primary:hover { background: var(--accent-dim); }
+
+/* ─── Focus states ──────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+a:focus:not(:focus-visible),
+button:focus:not(:focus-visible) { outline: none; }
+
+/* ─── Nav ────────────────────────────────────────── */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 22px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-inner {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  z-index: 1;
+}
+.nav-contact {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-2);
+  letter-spacing: 0.03em;
+  transition: color 0.2s;
+}
+.nav-contact:hover { color: var(--accent); }
+
+/* ─── Scatter Hero ───────────────────────────────── */
+.scatter-hero {
+  position: relative;
+  width: 100%;
+  min-height: 100dvh;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.scatter-canvas {
+  position: absolute;
+  inset: 0;
+  /* Images injected here, positioned with transform */
+}
+
+/* Scatter wrapper (holds image + tooltip) */
+.scatter-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  will-change: transform;
+  backface-visibility: hidden;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.scatter-wrap--visible {
+  opacity: 1;
+}
+
+/* Each image in the scatter */
+.scatter-item {
+  display: block;
+  object-fit: cover;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.35s ease;
+}
+.scatter-wrap:hover .scatter-item {
+  transform: scale(1.08);
+  box-shadow: 0 8px 32px rgba(200, 255, 0, 0.12);
+}
+
+/* Brand name tooltip */
+.scatter-tooltip {
+  position: absolute;
+  bottom: -28px;
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.25s, transform 0.25s;
+  pointer-events: none;
+}
+.scatter-wrap:hover .scatter-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Center text — stays fixed while scrolling through hero */
+.scatter-center {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  pointer-events: none;
+  z-index: 10;
+  transition: opacity 0.3s ease;
+}
+
+.scatter-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(80px, 12vw, 160px);
+  line-height: 0.88;
+  letter-spacing: -0.045em;
+  color: var(--text);
+  text-wrap: balance;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.scatter-title--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── Contact Section ────────────────────────────── */
+.contact-section {
+  padding: 140px 40px 120px;
+  border-top: 1px solid var(--border);
+}
+.contact-inner {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 32px;
+}
+.contact-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.contact-headline {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(48px, 7vw, 96px);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+}
+.contact-headline em {
+  font-style: normal;
+  color: var(--accent);
+}
+
+/* ─── Footer ─────────────────────────────────────── */
+.footer {
+  padding: 28px 40px;
+  border-top: 1px solid var(--border);
+}
+.footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.footer-copy { font-size: 13px; color: var(--text-3); }
+
+/* ─── Lightbox ───────────────────────────────────── */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(7, 7, 7, 0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+  cursor: auto;
+}
+.lightbox.open { opacity: 1; pointer-events: all; }
+.lightbox-close {
+  position: absolute;
+  top: 24px;
+  right: 32px;
+  font-size: 32px;
+  color: var(--text-2);
+  line-height: 1;
+  transition: color 0.2s;
+  cursor: pointer;
+}
+.lightbox-close:hover { color: var(--text); }
+.lightbox-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  max-height: 100%;
+}
+.lightbox-img {
+  max-height: calc(100vh - 160px);
+  max-width: 100%;
+  border-radius: var(--radius);
+  object-fit: contain;
+  transition: opacity 0.15s ease;
+}
+.lightbox-meta {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.lightbox-brand {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+}
+.lightbox-link { font-size: 13px; color: var(--text-2); transition: color 0.2s; cursor: pointer; }
+.lightbox-link:hover { color: var(--accent); }
+
+/* Lightbox navigation arrows */
+.lightbox-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 28px;
+  color: var(--text-2);
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s, background 0.2s, border-color 0.2s;
+  cursor: pointer;
+  z-index: 210;
+}
+.lightbox-arrow:hover {
+  color: var(--accent);
+  background: rgba(200, 255, 0, 0.08);
+  border-color: rgba(200, 255, 0, 0.2);
+}
+.lightbox-arrow--prev { left: 24px; }
+.lightbox-arrow--next { right: 24px; }
+
+/* ─── Reduced motion ─────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .scatter-wrap { opacity: 1; }
+  .scatter-title { opacity: 1; transform: none; }
+}
+
+/* ─── Responsive ─────────────────────────────────── */
+@media (max-width: 768px) {
+  .nav { padding: 18px 20px; }
+  .scatter-title { font-size: clamp(52px, 14vw, 90px); }
+  .contact-section { padding: 80px 24px; }
+  .contact-inner { flex-direction: column; gap: 48px; }
+  .footer { padding: 24px 20px; }
+  .lightbox-arrow { width: 36px; height: 36px; font-size: 20px; }
+  .lightbox-arrow--prev { left: 12px; }
+  .lightbox-arrow--next { right: 12px; }
+}

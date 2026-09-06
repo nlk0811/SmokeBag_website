@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" style="color-scheme: dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#070707">
+  <title>SmokeBag - AI Ad Creatives Portfolio</title>
+  <meta name="description" content="AI-generated Meta ad creatives for 50+ DTC brands.">
+  <meta property="og:title" content="SmokeBag - Ad Creatives Portfolio">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://d8j0ntlcm91z4.cloudfront.net">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">SmokeBag<span class="accent">.</span></a>
+      <a href="#contact" class="nav-contact">Get in touch ↓</a>
+    </div>
+  </nav>
+
+  <!-- Scatter Hero -->
+  <section class="scatter-hero" id="hero">
+    <!-- Images injected by JS -->
+    <div class="scatter-canvas" id="scatterCanvas"></div>
+
+    <!-- Center overlay -->
+    <div class="scatter-center">
+      <h1 class="scatter-title">SmokeBag<span class="accent">.</span></h1>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="contact-section" id="contact">
+    <div class="contact-inner">
+      <p class="contact-label">Ready to scale?</p>
+      <h2 class="contact-headline">Let's make ads<br>that actually<br><em>convert.</em></h2>
+      <a href="mailto:hello@smokebag.co" class="btn btn-primary">hello@smokebag.co</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="nav-logo">SmokeBag<span class="accent">.</span></span>
+      <span class="footer-copy">&copy; 2026</span>
+    </div>
+  </footer>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close">&times;</button>
+    <button class="lightbox-arrow lightbox-arrow--prev" id="lightboxPrev" aria-label="Previous">&#8592;</button>
+    <button class="lightbox-arrow lightbox-arrow--next" id="lightboxNext" aria-label="Next">&#8594;</button>
+    <div class="lightbox-content">
+      <img class="lightbox-img" id="lightboxImg" src="" alt="">
+      <div class="lightbox-meta">
+        <span class="lightbox-brand" id="lightboxBrand"></span>
+        <a class="lightbox-link" id="lightboxLink" href="#" target="_blank" rel="noopener">Open in Drive ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
