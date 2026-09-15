@@ -59,8 +59,18 @@ document.addEventListener('keydown', e => {
   }
 });
 
-// ─── Scatter sizes ───────────────────────────────────
-const SIZES = [
+// Touch swipe for lightbox
+let _lbTouchX = 0;
+lightbox.addEventListener('touchstart', e => {
+  _lbTouchX = e.changedTouches[0].clientX;
+}, { passive: true });
+lightbox.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - _lbTouchX;
+  if (Math.abs(dx) > 50) lightboxGo(dx < 0 ? 1 : -1);
+});
+
+// ─── Scatter sizes (base sizes at 1280px reference width) ──
+const BASE_SIZES = [
   { w: 68,  h: 85  },
   { w: 88,  h: 110 },
   { w: 112, h: 140 },
@@ -69,7 +79,7 @@ const SIZES = [
   { w: 205, h: 256 },
 ];
 
-// ─── Build scatter hero (tall canvas — new images appear on scroll) ──
+// ─── Build scatter hero ─────────────────────────────────
 let _scatterRAF = 0;
 
 function buildScatter() {
@@ -83,7 +93,11 @@ function buildScatter() {
   if (_scatterRAF) cancelAnimationFrame(_scatterRAF);
   canvas.innerHTML = '';
 
-  const MULT    = 3.5;
+  // Scale factor: proportional to 1280px reference, floored at 0.5
+  const scale = Math.max(Math.min(vw / 1280, 1), 0.5);
+
+  // When viewport is narrow, stretch canvas taller to compensate
+  const MULT = 3.5 + Math.max(0, (1 - scale) * 5);
   const canvasH = vh * MULT;
   hero.style.height   = canvasH + 'px';
   canvas.style.height = canvasH + 'px';
@@ -114,27 +128,28 @@ function buildScatter() {
       acc += sizeWeights[j];
       if (roll < acc) { sizeIdx = j; break; }
     }
-    const size = SIZES[sizeIdx];
+    const base = BASE_SIZES[sizeIdx];
+    const w = Math.round(base.w * scale);
+    const h = Math.round(base.h * scale);
 
-    const oscAmpX  = 7 + Math.random() * 11;
-    const oscAmpY  = 5 + Math.random() * 9;
+    const oscAmpX  = (7 + Math.random() * 11) * scale;
+    const oscAmpY  = (5 + Math.random() * 9) * scale;
     const oscFreq  = 0.00045 + Math.random() * 0.00055;
     const oscPhase = Math.random() * Math.PI * 2;
     const depth    = 0.015 + Math.random() * 0.135;
 
-    // Wrapper for hover tooltip
     const wrap = document.createElement('div');
     wrap.className = 'scatter-wrap';
-    wrap.style.width  = size.w + 'px';
-    wrap.style.height = size.h + 'px';
+    wrap.style.width  = w + 'px';
+    wrap.style.height = h + 'px';
 
     const img = document.createElement('img');
     img.className = 'scatter-item';
     img.src = brand.minUrl;
     img.alt = brand.name;
     img.loading = 'eager';
-    img.style.width  = size.w + 'px';
-    img.style.height = size.h + 'px';
+    img.style.width  = w + 'px';
+    img.style.height = h + 'px';
 
     const tooltip = document.createElement('span');
     tooltip.className = 'scatter-tooltip';
@@ -149,7 +164,7 @@ function buildScatter() {
       el: wrap, img,
       bx, by, depth,
       oscAmpX, oscAmpY, oscFreq, oscPhase,
-      w: size.w, h: size.h,
+      w, h,
     });
   });
 
@@ -194,13 +209,13 @@ function buildScatter() {
   let targetX = 0, targetY = 0;
 
   window.addEventListener('mousemove', e => {
-    const w = window.innerWidth || 1;
-    const h = window.innerHeight || 1;
-    targetX = (e.clientX / w - 0.5);
-    targetY = (e.clientY / h - 0.5);
+    const mw = window.innerWidth || 1;
+    const mh = window.innerHeight || 1;
+    targetX = (e.clientX / mw - 0.5);
+    targetY = (e.clientY / mh - 0.5);
   });
 
-  // ─── Animation loop (rAF with setInterval fallback) ──
+  // ─── Animation loop ──────────────────────────────────
   const t0 = performance.now();
 
   function tick(now) {
@@ -214,8 +229,8 @@ function buildScatter() {
       const ox = Math.sin(elapsed * obj.oscFreq + obj.oscPhase)        * obj.oscAmpX;
       const oy = Math.cos(elapsed * obj.oscFreq * 0.71 + obj.oscPhase) * obj.oscAmpY;
 
-      const px = mouseX * obj.depth * 110;
-      const py = mouseY * obj.depth * 110;
+      const px = mouseX * obj.depth * 110 * scale;
+      const py = mouseY * obj.depth * 110 * scale;
 
       const fx = obj.bx - obj.w / 2 + ox + px;
       const fy = obj.by - obj.h / 2 + oy + py;
@@ -228,7 +243,6 @@ function buildScatter() {
 
   _scatterRAF = requestAnimationFrame(tick);
 
-  // Fallback: if rAF doesn't fire (zero-viewport), use setInterval
   setTimeout(() => {
     if (imageObjects[0] && !imageObjects[0].el.style.transform.includes(',')) {
       setInterval(() => tick(performance.now()), 32);
@@ -251,9 +265,9 @@ const heroEl = document.getElementById('hero');
 if (scatterCenter && heroEl) {
   window.addEventListener('scroll', () => {
     const heroH = heroEl.offsetHeight || heroEl.clientHeight;
-    const vh = window.innerHeight || 720;
-    const fadeStart = heroH - vh * 1.5;
-    const fadeEnd = heroH - vh;
+    const svh = window.innerHeight || 720;
+    const fadeStart = heroH - svh * 1.5;
+    const fadeEnd = heroH - svh;
     if (fadeEnd <= fadeStart) return;
     const progress = Math.max(0, Math.min(1, (window.scrollY - fadeStart) / (fadeEnd - fadeStart)));
     scatterCenter.style.opacity = 1 - progress;
