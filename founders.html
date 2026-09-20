@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en" style="color-scheme: dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#070707">
+  <title>SmokeBag - Founders</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:         #070707;
+      --surface:    #0f0f0f;
+      --border:     #1e1e1e;
+      --text:       #f0f0f0;
+      --text-2:     #888888;
+      --text-3:     #444444;
+      --accent:     #c8ff00;
+      --accent-dim: #8aaf00;
+      --radius:     6px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Outfit', system-ui, -apple-system, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+    }
+    a { color: inherit; text-decoration: none; }
+    .accent { color: var(--accent); }
+
+    .nav {
+      padding: 22px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 20px;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+
+    .founders {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 40px 60px;
+      gap: 80px;
+    }
+
+    .founders-heading {
+      text-align: center;
+    }
+    .founders-heading h1 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(36px, 6vw, 72px);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+    }
+    .founders-heading p {
+      margin-top: 24px;
+      font-size: 17px;
+      color: var(--text-2);
+      max-width: 520px;
+      line-height: 1.7;
+    }
+
+    .founders-grid {
+      display: flex;
+      gap: 60px;
+      align-items: flex-start;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .founder-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      width: 260px;
+    }
+
+    .founder-avatar {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 36px;
+      color: var(--accent);
+      background: var(--surface);
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .founder-card:hover .founder-avatar {
+      border-color: var(--accent);
+      box-shadow: 0 0 40px rgba(200, 255, 0, 0.08);
+    }
+
+    .founder-info {
+      text-align: center;
+    }
+    .founder-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 22px;
+      letter-spacing: -0.02em;
+    }
+    .founder-role {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-top: 4px;
+    }
+
+    .founder-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-2);
+      letter-spacing: 0.03em;
+      transition: color 0.2s;
+    }
+    .founder-link:hover { color: var(--accent); }
+    .founder-link svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+
+    .footer {
+      padding: 28px 40px;
+      border-top: 1px solid var(--border);
+    }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-copy { font-size: 13px; color: var(--text-3); }
+
+    :focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+    a:focus:not(:focus-visible) { outline: none; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav { padding: 18px 20px; }
+      .founders { padding: 60px 24px 40px; gap: 60px; }
+      .founders-grid { gap: 48px; }
+      .footer { padding: 24px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <span class="nav-logo">SmokeBag<span class="accent">.</span></span>
+  </nav>
+
+  <main class="founders">
+    <div class="founders-heading">
+      <h1>The <span class="accent">people</span><br>behind it.</h1>
+      <p>We started SmokeBag because we saw DTC brands burning budgets on creatives that didn't convert. We believed AI could make high-performing ad design accessible to every brand, not just the ones with big agency retainers.</p>
+    </div>
+
+    <div class="founders-grid">
+      <div class="founder-card">
+        <div class="founder-avatar">LK</div>
+        <div class="founder-info">
+          <div class="founder-name">Lalith Karthik</div>
+          <div class="founder-role">Founder</div>
+        </div>
+        <a href="https://www.instagram.com/mr_nlk/" target="_blank" rel="noopener" class="founder-link">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          @mr_nlk
+        </a>
+      </div>
+
+      <div class="founder-card">
+        <div class="founder-avatar">ES</div>
+        <div class="founder-info">
+          <div class="founder-name">Eswar Sairam</div>
+          <div class="founder-role">Co-Founder</div>
+        </div>
+        <a href="https://www.instagram.com/eswarlakkakula/" target="_blank" rel="noopener" class="founder-link">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          @eswarlakkakula
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="nav-logo">SmokeBag<span class="accent">.</span></span>
+      <span class="footer-copy">&copy; 2026</span>
+    </div>
+  </footer>
+
+</body>
+</html>
