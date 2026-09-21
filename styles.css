@@ -233,6 +233,8 @@ button:focus:not(:focus-visible) { outline: none; }
   justify-content: space-between;
 }
 .footer-copy { font-size: 13px; color: var(--text-3); }
+.footer-link { font-size: 13px; color: var(--text-3); text-decoration: none; transition: color 0.2s; }
+.footer-link:hover { color: var(--accent); }
 
 /* ─── Lightbox ───────────────────────────────────── */
 .lightbox {
